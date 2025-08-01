@@ -1,3 +1,80 @@
-[gd_scene format=3 uid="uid://k3xtmo8ao12w"]
+[gd_scene load_steps=16 format=3 uid="uid://k3xtmo8ao12w"]
+
+[ext_resource type="Texture2D" uid="uid://b74ixx3eqktt8" path="res://sprites/TxtBlack.png" id="1_kb7l1"]
+[ext_resource type="Texture2D" uid="uid://d0b6yl05ajms7" path="res://sprites/TxtBlue.png" id="2_t8try"]
+[ext_resource type="Texture2D" uid="uid://b4xycj6ggw8g4" path="res://sprites/TxtGreen.png" id="3_sm5r7"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4kqhr"]
+sky_top_color = Color(0.490196, 0.615686, 1, 1)
+sky_horizon_color = Color(0.913725, 0.654902, 0.670588, 1)
+
+[sub_resource type="Sky" id="Sky_77chf"]
+sky_material = SubResource("ProceduralSkyMaterial_4kqhr")
+
+[sub_resource type="Environment" id="Environment_j3fut"]
+background_mode = 2
+sky = SubResource("Sky_77chf")
+ambient_light_source = 3
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_3mtnu"]
+size = Vector2(10, 10)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6qn56"]
+albedo_texture = ExtResource("1_kb7l1")
+uv1_triplanar = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_d7o75"]
+size = Vector3(1.92763, 0.499207, 1.93326)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4t2ce"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e71e8"]
+albedo_texture = ExtResource("2_t8try")
+uv1_triplanar = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vc7a5"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_dbmfq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_doku5"]
+albedo_texture = ExtResource("3_sm5r7")
+uv1_triplanar = true
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_7arqk"]
 
 [node name="Main" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_j3fut")
+
+[node name="Floor" type="MeshInstance3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0149226)
+mesh = SubResource("PlaneMesh_3mtnu")
+surface_material_override/0 = SubResource("StandardMaterial3D_6qn56")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="WorldEnvironment/Floor"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldEnvironment/Floor/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0153427, -0.250397, -0.00254822)
+shape = SubResource("BoxShape3D_d7o75")
+
+[node name="Box" type="MeshInstance3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.518476, 0)
+mesh = SubResource("BoxMesh_4t2ce")
+surface_material_override/0 = SubResource("StandardMaterial3D_e71e8")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="WorldEnvironment/Box"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldEnvironment/Box/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00369561, 0)
+shape = SubResource("BoxShape3D_vc7a5")
+
+[node name="Ramp" type="MeshInstance3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.212773, 0.506374, 3.53179)
+mesh = SubResource("PrismMesh_dbmfq")
+surface_material_override/0 = SubResource("StandardMaterial3D_doku5")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="WorldEnvironment/Ramp"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldEnvironment/Ramp/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_7arqk")
