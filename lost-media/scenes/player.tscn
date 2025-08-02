@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://ke1w14h1ub6i"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_1r33n"]
+[ext_resource type="Texture2D" uid="uid://dnpet7f7lvhuo" path="res://sprites/TxtRed.png" id="2_5cqhj"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_crh5y"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_coaxh"]
+albedo_texture = ExtResource("2_5cqhj")
+uv1_triplanar = true
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pntir"]
+
+[node name="Player" type="CharacterBody3D"]
+collision_mask = 6
+script = ExtResource("1_1r33n")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_crh5y")
+surface_material_override/0 = SubResource("StandardMaterial3D_coaxh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_pntir")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.886549, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
